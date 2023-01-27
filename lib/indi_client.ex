@@ -4,7 +4,7 @@ defmodule IndiClient do
   """
 
   def connect(host \\ '127.0.0.1', port \\ 7624) do
-    INDI.Server.start_link(host, port)
+    IndiClient.Server.start_link(host, port)
   end
 
   def getProperties(server_pid) do

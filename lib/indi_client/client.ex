@@ -1,5 +1,5 @@
 defmodule IndiClient.Client do
-  alias Indi.TCPClient
+  alias IndiClient.TCPClient
 
   defmodule State do
     defstruct tcp_pid: nil
