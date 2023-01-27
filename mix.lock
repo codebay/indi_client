@@ -1,0 +1,4 @@
+%{
+  "connection": {:hex, :connection, "1.1.0", "ff2a49c4b75b6fb3e674bfc5536451607270aac754ffd1bdfe175abe4a6d7a68", [:mix], [], "hexpm", "722c1eb0a418fbe91ba7bd59a47e28008a189d47e37e0e7bb85585a016b2869c"},
+  "saxy": {:hex, :saxy, "1.5.0", "0141127f2d042856f135fb2d94e0beecda7a2306f47546dbc6411fc5b07e28bf", [:mix], [], "hexpm", "ea7bb6328fbd1f2aceffa3ec6090bfb18c85aadf0f8e5030905e84235861cf89"},
+}
