@@ -19,6 +19,6 @@ This code is experimental, just for fun and subject to change as and when, so pl
 
 ## Useful Links
 
-[INDI Lib Site](https://indilib.org/)
-[INDI Technical Documentation](https://docs.indilib.org/)
-[INDI Protocol Publication](https://docs.indilib.org/protocol/INDI.pdf)
+- [INDI Lib Site](https://indilib.org/)
+- [INDI Technical Documentation](https://docs.indilib.org/)
+- [INDI Protocol Publication](https://docs.indilib.org/protocol/INDI.pdf)
