@@ -340,4 +340,83 @@ defmodule IndiParserTest do
       }
     }) == expected
   end
+
+  test "parsing partial" do
+    xml = [
+      "<setSwitchVector device=\"CCD Simulator\" name=\"CONNECTION\" state=\"Ok\" timeout=\"60\" timestamp=\"2023-01-19T14:47:43\">",
+      "<oneSwitch name=\"CONNECT\">",
+      "On",
+      "</oneSwitch>",
+      "<oneSwitch name=\"DISCONNECT\">",
+      "Off",
+      "</oneSwitch>",
+      "</setSwitchVector>"
+    ]
+
+    expected = {:ok, %{
+      "CCD Simulator" => %{
+        "CONNECTION" => %{
+          "defSwitch" => %{
+            "CONNECT" => %{
+              "label" => "Connect",
+              "name" => "CONNECT",
+              "value" => "On"
+            },
+            "DISCONNECT" => %{
+              "label" => "Disconnect",
+              "name" => "DISCONNECT",
+              "value" => "Off"
+            }
+          },
+          "device" => "CCD Simulator",
+          "group" => "Main Control",
+          "label" => "Connection",
+          "name" => "CONNECTION",
+          "perm" => "rw",
+          "rule" => "OneOfMany",
+          "state" => "Ok",
+          "timeout" => "60",
+          "timestamp" => "2023-01-19T14:47:43"
+        }
+      }
+    }}
+
+    {:ok, partial} = Saxy.Partial.new(IndiClient.Protocol.SaxEventHandler, %{
+      "CCD Simulator" => %{
+        "CONNECTION" => %{
+          "defSwitch" => %{
+            "CONNECT" => %{
+              "label" => "Connect",
+              "name" => "CONNECT",
+              "value" => "Off"
+            },
+            "DISCONNECT" => %{
+              "label" => "Disconnect",
+              "name" => "DISCONNECT",
+              "value" => "On"
+            }
+          },
+          "device" => "CCD Simulator",
+          "group" => "Main Control",
+          "label" => "Connection",
+          "name" => "CONNECTION",
+          "perm" => "rw",
+          "rule" => "OneOfMany",
+          "state" => "Idle",
+          "timeout" => "60",
+          "timestamp" => "2023-01-19T14:47:12"
+        }
+      }
+    })
+
+    state = Enum.reduce_while(xml, partial, fn line, partial ->
+      {:cont, partial} = Saxy.Partial.parse(partial, line)
+      case partial do
+        %{state: %{stack: [], prolog: []}} -> {:halt, Saxy.Partial.terminate(partial)}
+        _ -> {:cont, partial}
+      end
+    end)
+
+    assert state == expected
+  end
 end

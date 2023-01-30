@@ -1,4 +1,5 @@
 defmodule IndiClient.Protocol.SaxEventHandler do
+  @behaviour Saxy.Handler
   @moduledoc false
 
   def handle_event(:start_document, _prolog, state) do
